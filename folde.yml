@@ -1,0 +1,15 @@
+---
+- name: create file
+  hosts: localhost
+  tasks:
+    - name: create an empty floder
+      ansible.builtin.file:
+        path: /home/ec2-user/aws
+        state: directr
+        mode: '0700'
+    - name: Copy the file 
+      ansible.builtin.copy:
+        src: /root/ansible.txt # Source path on the control node or managed host (if using remote_src: yes)
+        dest: /home/ec2-user/aws/ansible.txt
+          
+   

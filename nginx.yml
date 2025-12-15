@@ -1,0 +1,27 @@
+---
+- name: install tree package
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Stop service httpd, if started
+    ansible.builtin.service:
+      name: httpd
+      state: stopped
+
+  - name: install nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: present
+
+    # start and enabled
+  - name: start and enabled nginx
+    ansible.builtin.systemd_service:
+      name: nginx
+      state: started
+      enabled: true
+      # deployee insdex.html
+  - name: deploy index.html file
+    ansible.builtin.copy:
+      dest: /usr/share/nginx/html/index.html
+      content:
+       <h1> naad karti kai ansible ni nginx zal </h1>    

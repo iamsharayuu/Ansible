@@ -1,0 +1,50 @@
+---
+- name: install lamp in amzon linx
+  hosts : localhost
+  become: yes
+  tasks: 
+  # insatll httpd
+  - name: install httpd package
+    ansible.builtin.dnf:
+      name: httpd
+      state: present 
+      # insatll mariadb
+  - name: install mariadb package
+    ansible.builtin.dnf:
+      name: mariadb105-server
+      state: present 
+      # insatll php
+  - name: install php package
+    ansible.builtin.dnf:
+      name: 
+      - php
+      - php-fpm
+      state: present 
+     #started
+  - name: start and enabled httpd
+    ansible.builtin.systemd_service:
+      name: httpd
+      state: started
+      enabled: true
+
+  - name: start and enabled mariadb
+    ansible.builtin.systemd_service:
+      name: mariadb
+      state: started
+      enabled: true
+
+  - name: start and enabled php
+    ansible.builtin.systemd_service:
+      name: php-fpm
+      state: started
+      enabled: true
+   # deploy php
+  - name: deploy index.html file
+    ansible.builtin.copy:
+      dest: /var/www/html/index.php
+      content:
+       <?php
+       phpinfo();
+       ?>
+      
+      
